@@ -6,3 +6,219 @@ Medium green: #55c57a
 Dark green: #28b485
 
 */
+
+/* Basic Reset (Normalization) - remove auto-added margin/padding set by browser */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.7;
+  color: #777;
+  padding: 30px;
+}
+
+.header {
+  height: 95vh;
+  background-image:
+    linear-gradient(
+      to right bottom,
+    rgba(126, 213, 111, 0.801),
+    rgba(40, 180, 133, 0.808)
+    ),
+    url(../img/hero.jpg);
+  background-size: cover; /* trys to fit the photo in the specified viewport space */
+  background-position: top center;
+  clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%); /* relative to (0,0) top left corner */
+  position: relative;
+}
+
+.logo-box {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+}
+
+.logo {
+  height: 35px;
+  /* the width will scale accordingly (by the browser) */
+}
+
+/* just a cool hover addition */
+/* .logo:hover {
+  animation: moveInRight 1s ease-out;
+} */
+
+.text-box {
+  position: absolute;
+  top: 40%; /* top and left are relatative to the parent (header) */
+  left: 50%;
+  transform: translate(-50%, -50%); /* relative to box height/width itself */
+  text-align: center;
+  /* background-color: red; */
+}
+
+.heading-primary {
+  color: #fff;
+  text-transform: uppercase;
+
+  /* determines if backpart of tranformed element is hidden
+    - avoids animation shaking */
+  /* doesn't seem  to be needed in chrome nowadays */
+  backface-visibility: hidden;
+  margin-bottom: 60px;
+}
+
+.heading-primary-main {
+  /* same as with sub element, puts the text on its own line */
+  display: block;
+  font-size: 60px;
+  font-weight: 400;
+  letter-spacing: 35px;
+
+  animation-name: moveInLeft;
+  animation-duration: 1s;
+  animation-timing-function: ease-out;
+
+  /*
+    animation-delay: 3s;
+    animation-iteration-count: 3; -- # times to repeat the animation
+  */
+}
+
+.heading-primary-sub {
+  display: block;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 17.4px;
+
+  animation: moveInRight 1s ease-out;
+  /* animation-name: moveInRight;
+  animation-duration: 1s;
+  animation-timing-function: ease-out; */
+}
+
+/* best to only animate 2 properties for browser performance reasons */
+@keyframes moveInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-100px); /* goes to the left */
+  }
+
+  60% {
+    /* transform: rotate(180deg); */
+  }
+
+  80% {
+    transform: translateX(10px); /* goes slightly to the right */
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+
+@keyframes moveInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100px); /* goes to the right */
+  }
+
+  80% {
+    transform: translateX(-10px); /* goes slightly to the left */
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+
+@keyframes moveInBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+
+/* psuedo class link/visited to style an anchor element in various states */
+.btn:link,
+.btn:visited {
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 15px 40px;
+
+   /*
+   use inline-block since we still want to give padding to the element,
+   but without it taking all the horizontal space.
+   using block would make it occupy all the horizonal space.
+   */
+  display: inline-block; /* treated like it's text since it's still inline */
+  border-radius: 100px;
+
+  /* simpler animation (no explicit keyframes) */
+  transition: all .2s;
+  position: relative;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+
+  /* x, y, blur, shadow color */
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* when we click an anchor we get the active state */
+.btn:active {
+  /* this translation in relation to the initial "link" state
+  not the hover state so when we hover the button goes up to 3px,
+  and when we click the button goes up to 1px, not 4px (3+1), since
+  it's related to the base or link state
+  */
+  transform: translateY(-1px);
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+
+.btn-white {
+  background-color: #fff;
+  color: #777;
+}
+
+/* psuedo element stuff for pizzaz */
+.btn::after {
+  content: ""; /* makes the button appear */
+  display: inline-block; /* makes the button appear */
+  height: 100%; /* 100% of the main button height */
+  width: 100%; /* 100% of the main button width */
+  border-radius: 100px;
+  position: absolute;  /* relative to the main button (.btn:link) */
+  top: 0;
+  left: 0;
+  z-index: -1; /* puts it behind the button */
+  transition: all .4s;
+}
+
+.btn-white::after {
+  background-color: #fff;
+}
+
+.btn:hover::after {
+  transform: scaleX(1.4) scaleY(1.6);
+  opacity: 0; /* clever way to make the psuedo element vanish after it scales */
+}
+
+.btn-animated {
+  animation: moveInBottom 0.5s ease-out .75s;
+  animation-fill-mode: backwards; /* applies the 0% animation at the beginning */
+}
