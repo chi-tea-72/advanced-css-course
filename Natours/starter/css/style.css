@@ -8,19 +8,35 @@ Dark green: #28b485
 */
 
 /* Basic Reset (Normalization) - remove auto-added margin/padding set by browser */
-* {
+*,
+::after,
+::before {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+
+   /* every element will inherit the box-sizing property value set on the body
+   unless of course it's overridden
+   */
+  box-sizing: inherit;
+}
+
+html {
+  /* allows user to change browser font size instead of being forced
+  to be a certain value (e.g. 10px)
+  0.625 * 16px (default browser setting) = 10px, so if user zooms in
+  or changes the browser font size, our css will not block it.
+  */
+  font-size: 62.5%;
 }
 
 body {
   font-family: "Lato", sans-serif;
   font-weight: 400;
-  font-size: 16px;
+  /* font-size: 16px; */
   line-height: 1.7;
   color: #777;
-  padding: 30px;
+  padding: 3rem;
+  box-sizing: border-box;
 }
 
 .header {
@@ -38,14 +54,14 @@ body {
   position: relative;
 }
 
-.logo-box {
+.header__logo-box {
   position: absolute;
-  top: 40px;
-  left: 40px;
+  top: 4rem;
+  left: 4rem;
 }
 
-.logo {
-  height: 35px;
+.header__logo {
+  height: 3.5rem;
   /* the width will scale accordingly (by the browser) */
 }
 
@@ -54,7 +70,7 @@ body {
   animation: moveInRight 1s ease-out;
 } */
 
-.text-box {
+.header__text-box {
   position: absolute;
   top: 40%; /* top and left are relatative to the parent (header) */
   left: 50%;
@@ -71,15 +87,15 @@ body {
     - avoids animation shaking */
   /* doesn't seem  to be needed in chrome nowadays */
   backface-visibility: hidden;
-  margin-bottom: 60px;
+  margin-bottom: 6rem;
 }
 
-.heading-primary-main {
+.heading-primary--main {
   /* same as with sub element, puts the text on its own line */
   display: block;
-  font-size: 60px;
+  font-size: 6rem;
   font-weight: 400;
-  letter-spacing: 35px;
+  letter-spacing: 3.5rem;
 
   animation-name: moveInLeft;
   animation-duration: 1s;
@@ -91,11 +107,11 @@ body {
   */
 }
 
-.heading-primary-sub {
+.heading-primary--sub {
   display: block;
-  font-size: 20px;
+  font-size: 2rem;
   font-weight: 700;
-  letter-spacing: 17.4px;
+  letter-spacing: 1.75rem;
 
   animation: moveInRight 1s ease-out;
   /* animation-name: moveInRight;
@@ -107,7 +123,7 @@ body {
 @keyframes moveInLeft {
   0% {
     opacity: 0;
-    transform: translateX(-100px); /* goes to the left */
+    transform: translateX(-10rem); /* goes to the left */
   }
 
   60% {
@@ -115,7 +131,7 @@ body {
   }
 
   80% {
-    transform: translateX(10px); /* goes slightly to the right */
+    transform: translateX(1rem); /* goes slightly to the right */
   }
 
   100% {
@@ -127,11 +143,11 @@ body {
 @keyframes moveInRight {
   0% {
     opacity: 0;
-    transform: translateX(100px); /* goes to the right */
+    transform: translateX(10rem); /* goes to the right */
   }
 
   80% {
-    transform: translateX(-10px); /* goes slightly to the left */
+    transform: translateX(-1rem); /* goes slightly to the left */
   }
 
   100% {
@@ -143,7 +159,7 @@ body {
 @keyframes moveInBottom {
   0% {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(3rem);
   }
 
   100% {
@@ -157,7 +173,7 @@ body {
 .btn:visited {
   text-transform: uppercase;
   text-decoration: none;
-  padding: 15px 40px;
+  padding: 1.5rem 4rem;
 
    /*
    use inline-block since we still want to give padding to the element,
@@ -165,18 +181,19 @@ body {
    using block would make it occupy all the horizonal space.
    */
   display: inline-block; /* treated like it's text since it's still inline */
-  border-radius: 100px;
+  border-radius: 10rem;
 
   /* simpler animation (no explicit keyframes) */
   transition: all .2s;
   position: relative;
+  font-size: 1.6rem;
 }
 
 .btn:hover {
   transform: translateY(-3px);
 
   /* x, y, blur, shadow color */
-  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  box-shadow: 0 1rem 2rem rgba(0,0,0,0.2);
 }
 
 /* when we click an anchor we get the active state */
@@ -187,29 +204,29 @@ body {
   it's related to the base or link state
   */
   transform: translateY(-1px);
-  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+  box-shadow: 0 .5rem 1rem rgba(0,0,0,0.2);
 }
 
-.btn-white {
+.btn--white {
   background-color: #fff;
   color: #777;
 }
 
-/* psuedo element stuff for pizzaz */
+/* psuedo element stuff for pizzaz purposes */
 .btn::after {
   content: ""; /* makes the button appear */
   display: inline-block; /* makes the button appear */
   height: 100%; /* 100% of the main button height */
   width: 100%; /* 100% of the main button width */
-  border-radius: 100px;
+  border-radius: 10rem;
   position: absolute;  /* relative to the main button (.btn:link) */
   top: 0;
   left: 0;
-  z-index: -1; /* puts it behind the button */
+  z-index: -1; /* puts the "fake" button behind the real button */
   transition: all .4s;
 }
 
-.btn-white::after {
+.btn--white::after {
   background-color: #fff;
 }
 
@@ -218,7 +235,7 @@ body {
   opacity: 0; /* clever way to make the psuedo element vanish after it scales */
 }
 
-.btn-animated {
+.btn--animated {
   animation: moveInBottom 0.5s ease-out .75s;
   animation-fill-mode: backwards; /* applies the 0% animation at the beginning */
 }
