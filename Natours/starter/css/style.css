@@ -1,11 +1,37 @@
-/*
-COLORS:
+/* best to only animate 2 properties for browser performance reasons */
+@keyframes moveInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-10rem);
+    /* goes to the left */ }
+  60% {
+    /* transform: rotate(180deg); */ }
+  80% {
+    transform: translateX(1rem);
+    /* goes slightly to the right */ }
+  100% {
+    opacity: 1;
+    transform: translate(0); } }
 
-Light green: #7ed56f
-Medium green: #55c57a
-Dark green: #28b485
+@keyframes moveInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(10rem);
+    /* goes to the right */ }
+  80% {
+    transform: translateX(-1rem);
+    /* goes slightly to the left */ }
+  100% {
+    opacity: 1;
+    transform: translate(0); } }
 
-*/
+@keyframes moveInBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(3rem); }
+  100% {
+    opacity: 1;
+    transform: translate(0); } }
 
 /* Basic Reset (Normalization) - remove auto-added margin/padding set by browser */
 *,
@@ -13,12 +39,10 @@ Dark green: #28b485
 ::before {
   margin: 0;
   padding: 0;
-
-   /* every element will inherit the box-sizing property value set on the body
+  /* every element will inherit the box-sizing property value set on the body
    unless of course it's overridden
    */
-  box-sizing: inherit;
-}
+  box-sizing: inherit; }
 
 html {
   /* allows user to change browser font size instead of being forced
@@ -26,8 +50,7 @@ html {
   0.625 * 16px (default browser setting) = 10px, so if user zooms in
   or changes the browser font size, our css will not block it.
   */
-  font-size: 62.5%;
-}
+  font-size: 62.5%; }
 
 body {
   font-family: "Lato", sans-serif;
@@ -36,206 +59,129 @@ body {
   line-height: 1.7;
   color: #777;
   padding: 3rem;
-  box-sizing: border-box;
-}
-
-.header {
-  height: 95vh;
-  background-image:
-    linear-gradient(
-      to right bottom,
-    rgba(126, 213, 111, 0.801),
-    rgba(40, 180, 133, 0.808)
-    ),
-    url(../img/hero.jpg);
-  background-size: cover; /* trys to fit the photo in the specified viewport space */
-  background-position: top center;
-  clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%); /* relative to (0,0) top left corner */
-  position: relative;
-}
-
-.header__logo-box {
-  position: absolute;
-  top: 4rem;
-  left: 4rem;
-}
-
-.header__logo {
-  height: 3.5rem;
-  /* the width will scale accordingly (by the browser) */
-}
-
-/* just a cool hover addition */
-/* .logo:hover {
-  animation: moveInRight 1s ease-out;
-} */
-
-.header__text-box {
-  position: absolute;
-  top: 40%; /* top and left are relatative to the parent (header) */
-  left: 50%;
-  transform: translate(-50%, -50%); /* relative to box height/width itself */
-  text-align: center;
-  /* background-color: red; */
-}
+  box-sizing: border-box; }
 
 .heading-primary {
   color: #fff;
   text-transform: uppercase;
-
   /* determines if backpart of tranformed element is hidden
     - avoids animation shaking */
   /* doesn't seem  to be needed in chrome nowadays */
   backface-visibility: hidden;
-  margin-bottom: 6rem;
-}
+  margin-bottom: 6rem; }
+  .heading-primary--main {
+    /* same as with sub element, puts the text on its own line */
+    display: block;
+    font-size: 6rem;
+    font-weight: 400;
+    letter-spacing: 3.5rem;
+    animation-name: moveInLeft;
+    animation-duration: 1s;
+    animation-timing-function: ease-out;
+    /*
+      animation-delay: 3s;
+      animation-iteration-count: 3; -- # times to repeat the animation
+    */ }
+  .heading-primary--sub {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 1.75rem;
+    animation: moveInRight 1s ease-out;
+    /* animation-name: moveInRight;
+    animation-duration: 1s;
+    animation-timing-function: ease-out; */ }
 
-.heading-primary--main {
-  /* same as with sub element, puts the text on its own line */
-  display: block;
-  font-size: 6rem;
-  font-weight: 400;
-  letter-spacing: 3.5rem;
+.btn {
+  /* when we click an anchor we get the active state */
+  /* psuedo element stuff for pizzaz purposes */ }
+  .btn:link, .btn:visited {
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 1.5rem 4rem;
+    /*
+     use inline-block since we still want to give padding to the element,
+     but without it taking all the horizontal space.
+     using block would make it occupy all the horizonal space.
+     */
+    display: inline-block;
+    /* treated like it's text since it's still inline */
+    border-radius: 10rem;
+    /* simpler animation (no explicit keyframes) */
+    transition: all .2s;
+    position: relative;
+    font-size: 1.6rem; }
+  .btn:hover {
+    transform: translateY(-3px);
+    /* x, y, blur, shadow color */
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2); }
+    .btn:hover::after {
+      transform: scaleX(1.4) scaleY(1.6);
+      opacity: 0;
+      /* clever way to make the psuedo element vanish after it scales */ }
+  .btn:active {
+    /* this translation in relation to the initial "link" state
+    not the hover state so when we hover the button goes up to 3px,
+    and when we click the button goes up to 1px, not 4px (3+1), since
+    it's related to the base or link state
+    */
+    transform: translateY(-1px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2); }
+  .btn--white {
+    background-color: #fff;
+    color: #777; }
+    .btn--white::after {
+      background-color: #fff; }
+  .btn::after {
+    content: "";
+    /* makes the button appear */
+    display: inline-block;
+    /* makes the button appear */
+    height: 100%;
+    /* 100% of the main button height */
+    width: 100%;
+    /* 100% of the main button width */
+    border-radius: 10rem;
+    position: absolute;
+    /* relative to the main button (.btn:link) */
+    top: 0;
+    left: 0;
+    z-index: -1;
+    /* puts the "fake" button behind the real button */
+    transition: all .4s; }
+  .btn--animated {
+    animation: moveInBottom 0.5s ease-out .75s;
+    animation-fill-mode: backwards;
+    /* applies the 0% animation at the beginning */ }
 
-  animation-name: moveInLeft;
-  animation-duration: 1s;
-  animation-timing-function: ease-out;
+.header {
+  height: 95vh;
+  background-image: linear-gradient(to right bottom, rgba(126, 213, 111, 0.8), rgba(40, 180, 133, 0.8)), url(../img/hero.jpg);
+  background-size: cover;
+  /* trys to fit the photo in the specified viewport space */
+  background-position: top center;
+  clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+  /* relative to (0,0) top left corner */
+  position: relative; }
+  .header__logo-box {
+    position: absolute;
+    top: 4rem;
+    left: 4rem; }
+  .header__logo {
+    height: 3.5rem;
+    /* the width will scale accordingly (by the browser) */ }
+  .header__text-box {
+    position: absolute;
+    top: 40%;
+    /* top and left are relatative to the parent (header) */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* relative to box height/width itself */
+    text-align: center;
+    /* background-color: red; */ }
 
-  /*
-    animation-delay: 3s;
-    animation-iteration-count: 3; -- # times to repeat the animation
-  */
-}
-
-.heading-primary--sub {
-  display: block;
-  font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: 1.75rem;
-
-  animation: moveInRight 1s ease-out;
-  /* animation-name: moveInRight;
-  animation-duration: 1s;
-  animation-timing-function: ease-out; */
-}
-
-/* best to only animate 2 properties for browser performance reasons */
-@keyframes moveInLeft {
-  0% {
-    opacity: 0;
-    transform: translateX(-10rem); /* goes to the left */
-  }
-
-  60% {
-    /* transform: rotate(180deg); */
-  }
-
-  80% {
-    transform: translateX(1rem); /* goes slightly to the right */
-  }
-
-  100% {
-    opacity: 1;
-    transform: translate(0);
-  }
-}
-
-@keyframes moveInRight {
-  0% {
-    opacity: 0;
-    transform: translateX(10rem); /* goes to the right */
-  }
-
-  80% {
-    transform: translateX(-1rem); /* goes slightly to the left */
-  }
-
-  100% {
-    opacity: 1;
-    transform: translate(0);
-  }
-}
-
-@keyframes moveInBottom {
-  0% {
-    opacity: 0;
-    transform: translateY(3rem);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translate(0);
-  }
-}
-
+/* just a cool hover addition */
+/* .logo:hover {
+    animation: moveInRight 1s ease-out;
+  } */
 /* psuedo class link/visited to style an anchor element in various states */
-.btn:link,
-.btn:visited {
-  text-transform: uppercase;
-  text-decoration: none;
-  padding: 1.5rem 4rem;
-
-   /*
-   use inline-block since we still want to give padding to the element,
-   but without it taking all the horizontal space.
-   using block would make it occupy all the horizonal space.
-   */
-  display: inline-block; /* treated like it's text since it's still inline */
-  border-radius: 10rem;
-
-  /* simpler animation (no explicit keyframes) */
-  transition: all .2s;
-  position: relative;
-  font-size: 1.6rem;
-}
-
-.btn:hover {
-  transform: translateY(-3px);
-
-  /* x, y, blur, shadow color */
-  box-shadow: 0 1rem 2rem rgba(0,0,0,0.2);
-}
-
-/* when we click an anchor we get the active state */
-.btn:active {
-  /* this translation in relation to the initial "link" state
-  not the hover state so when we hover the button goes up to 3px,
-  and when we click the button goes up to 1px, not 4px (3+1), since
-  it's related to the base or link state
-  */
-  transform: translateY(-1px);
-  box-shadow: 0 .5rem 1rem rgba(0,0,0,0.2);
-}
-
-.btn--white {
-  background-color: #fff;
-  color: #777;
-}
-
-/* psuedo element stuff for pizzaz purposes */
-.btn::after {
-  content: ""; /* makes the button appear */
-  display: inline-block; /* makes the button appear */
-  height: 100%; /* 100% of the main button height */
-  width: 100%; /* 100% of the main button width */
-  border-radius: 10rem;
-  position: absolute;  /* relative to the main button (.btn:link) */
-  top: 0;
-  left: 0;
-  z-index: -1; /* puts the "fake" button behind the real button */
-  transition: all .4s;
-}
-
-.btn--white::after {
-  background-color: #fff;
-}
-
-.btn:hover::after {
-  transform: scaleX(1.4) scaleY(1.6);
-  opacity: 0; /* clever way to make the psuedo element vanish after it scales */
-}
-
-.btn--animated {
-  animation: moveInBottom 0.5s ease-out .75s;
-  animation-fill-mode: backwards; /* applies the 0% animation at the beginning */
-}

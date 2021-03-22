@@ -1,0 +1,34 @@
+.header {
+  height: 95vh;
+  background-image:
+    linear-gradient(
+      to right bottom,
+    rgba($color-primary-light, 0.8),
+    rgba($color-primary-dark, 0.8)
+    ),
+    url(../img/hero.jpg);
+  background-size: cover; /* trys to fit the photo in the specified viewport space */
+  background-position: top center;
+  clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%); /* relative to (0,0) top left corner */
+  position: relative;
+
+  &__logo-box {
+    position: absolute;
+    top: 4rem;
+    left: 4rem;
+  }
+
+  &__logo {
+    height: 3.5rem;
+    /* the width will scale accordingly (by the browser) */
+  }
+
+  &__text-box {
+    position: absolute;
+    top: 40%; /* top and left are relatative to the parent (header) */
+    left: 50%;
+    transform: translate(-50%, -50%); /* relative to box height/width itself */
+    text-align: center;
+    /* background-color: red; */
+  }
+}

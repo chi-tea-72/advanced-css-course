@@ -1,0 +1,22 @@
+@import "abstracts/functions"; // don't need to include the underscore sass understands
+@import "abstracts/mixins";
+@import "abstracts/variables";
+
+@import "base/animations";
+@import "base/base";
+@import "base/typography";
+@import "base/utilities";
+
+@import "components/button";
+
+@import "layout/header";
+
+@import "pages/home";
+
+
+  /* just a cool hover addition */
+  /* .logo:hover {
+    animation: moveInRight 1s ease-out;
+  } */
+
+/* psuedo class link/visited to style an anchor element in various states */

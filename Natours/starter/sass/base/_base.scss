@@ -1,0 +1,30 @@
+// the file starts with an underscore to denote that it's a partial
+// scss file
+
+/* Basic Reset (Normalization) - remove auto-added margin/padding set by browser */
+*,
+::after,
+::before {
+  margin: 0;
+  padding: 0;
+
+   /* every element will inherit the box-sizing property value set on the body
+   unless of course it's overridden
+   */
+  box-sizing: inherit;
+}
+
+html {
+  /* allows user to change browser font size instead of being forced
+  to be a certain value (e.g. 10px)
+  0.625 * 16px (default browser setting) = 10px, so if user zooms in
+  or changes the browser font size, our css will not block it.
+  */
+
+  // Defines what 1 rem means
+  font-size: 62.5%;
+}
+
+body {
+  box-sizing: border-box;
+}
